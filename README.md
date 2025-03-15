@@ -1,1 +1,1 @@
-# gitlab-cmd-client
+# gitlab-cli-client
