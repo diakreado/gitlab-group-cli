@@ -1,8 +1,9 @@
 use clap::Parser;
 
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-struct Args {
+#[derive(Parser)]
+#[command(name = "GitLab CLI")]
+#[command(version, about = "Command line ineterface for GitLab", long_about = None)]
+struct Cli {
     #[arg(short, long)]
     name: String,
 
@@ -11,9 +12,9 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::parse();
+    let cli = Cli::parse();
 
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name);
+    for _ in 0..cli.count {
+        println!("Hello {}!", cli.name);
     }
 }
