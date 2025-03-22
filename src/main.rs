@@ -1,4 +1,4 @@
-use clap::{Args, Parser, Subcommand};
+use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(name = "GitLab CLI", version, about = "Command line ineterface for GitLab", long_about = None)]
@@ -20,12 +20,14 @@ enum Commands {
 enum GetAction {
     /// User entity
     #[command(alias="u")]
-    User(GetUserArgs),
-}
-
-#[derive(Args)]
-struct GetUserArgs {
-    username: String,
+    User {
+        username: String,
+    },
+    /// Group entity
+    #[command(alias="g")]
+    Group {
+        groupname: String
+    },
 }
 
 
@@ -34,8 +36,11 @@ fn main() {
 
     match &cli.command {
         Commands::Get { command } => match command {
-            GetAction::User(username) => {
-                println!("Performing action with option: {}", username.username);
+            GetAction::User { username } => {
+                println!("Action with user: {username}");
+            },
+            GetAction::Group { groupname } => {
+                println!("Action with group: {groupname}");
             },
         }
     }
