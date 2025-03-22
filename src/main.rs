@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(name = "GitLab CLI", version, about = "Command line ineterface for GitLab", long_about = None)]
+#[command(name = "GitLab Group CLI", version, about = "Command line ineterface for GitLab group management", long_about = None)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -9,39 +9,49 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Get entity
-    Get {
+    /// Manage GitLab groups
+    #[command(alias="g")]
+    Group {
+        /// Group name
+        groupname: String,
+
         #[command(subcommand)]
-        command: GetAction,
+        command: GroupAction,
+    },
+    /// Manage GitLab users
+    #[command(alias="u")]
+    User {
+        /// Get target user
+        username: String,
     },
 }
 
 #[derive(Subcommand)]
-enum GetAction {
-    /// User entity
-    #[command(alias="u")]
-    User {
+enum GroupAction {
+    /// List group members
+    #[command(alias="l")]
+    List,
+
+    /// Append group members with user
+    Append {
         username: String,
     },
-    /// Group entity
-    #[command(alias="g")]
-    Group {
-        groupname: String
-    },
 }
-
 
 fn main() {
     let cli = Cli::parse();
 
-    match &cli.command {
-        Commands::Get { command } => match command {
-            GetAction::User { username } => {
-                println!("Action with user: {username}");
+    match cli.command {
+        Commands::Group { groupname, command } => match command {
+            GroupAction::List => {
+                println!("Action [LIST] with group {groupname}");
             },
-            GetAction::Group { groupname } => {
-                println!("Action with group: {groupname}");
+            GroupAction::Append { username } => {
+                println!("Action [APPEND] with group {groupname}, and user {username}");
             },
-        }
+        },
+        Commands::User { username } => {
+            println!("Action [GET] with user {username}");
+        },
     }
 }

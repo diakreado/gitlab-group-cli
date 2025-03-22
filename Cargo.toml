@@ -1,5 +1,5 @@
 [package]
-name = "gitlab-cmd-client"
+name = "gitlab-group-cmd-client"
 version = "0.1.0"
 edition = "2024"
 
